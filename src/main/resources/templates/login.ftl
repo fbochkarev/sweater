@@ -3,5 +3,7 @@
 
 <@c.page>
 Login page
+    <#--чтобы можно было отображать сообщение об активации-->
+${message?ifExists}
 <@l.login "/login" false/>
 </@c.page>
