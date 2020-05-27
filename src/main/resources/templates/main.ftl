@@ -14,14 +14,26 @@
         Add new message
     </a>
 
-    <div class="collapse" id="collapseExample">
+    <div class="collapse <#if message??>show</#if>" id="collapseExample">
         <div class="form-group mt-3">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input type="text" name="text" class="form-control" placeholder="Введите сообщение"/>
+                    <input type="text" class="form-control ${(textError??)?string('is-invalid', '')}"
+                           value="<#if message??>${message.text}</#if>" name="text" placeholder="Введите сообщение"/>
+                    <#if textError??>
+                        <div class="invalid-feedback">
+                            ${textError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="tag" class="form-control" placeholder="Тэг">
+                    <input type="text" name="tag"
+                           value="<#if message??>${message.tag}</#if>" class="form-control" placeholder="Тэг">
+                    <#if tagError??>
+                        <div class="invalid-feedback">
+                            ${tagError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <div class="custom-file">
@@ -37,21 +49,21 @@
         </div>
     </div>
     <div class="card-columns">
-    <#list messages as message>
-        <div class="card my-3">
-            <#if message.filename??>
-                <img src="/img/${message.filename}" class="card-img-top">
-            </#if>
-            <div class="m-2">
-                <span>${message.text}</span>
-                <i>${message.tag}</i>
+        <#list messages as message>
+            <div class="card my-3">
+                <#if message.filename??>
+                    <img src="/img/${message.filename}" class="card-img-top">
+                </#if>
+                <div class="m-2">
+                    <span>${message.text}</span>
+                    <i>${message.tag}</i>
+                </div>
+                <div class="card-footer text-muted">
+                    <strong>${message.authorName}</strong>
+                </div>
             </div>
-            <div class="card-footer text-muted">
-                <strong>${message.authorName}</strong>
-            </div>
-        </div>
-    <#else>
-        No message
-    </#list>
+        <#else>
+            No message
+        </#list>
     </div>
 </@c.page>
